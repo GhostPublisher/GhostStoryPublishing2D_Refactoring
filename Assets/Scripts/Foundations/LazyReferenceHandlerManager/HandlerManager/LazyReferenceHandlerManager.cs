@@ -9,6 +9,7 @@ namespace Foundations.ReferencesHandler
         private LazyReferenceHandlerGroup<IStaticReferenceHandler> StaticLazyReferenceHandlerGroup;
         private LazyReferenceHandlerGroup<IDynamicReferenceHandler> DynamicLazyReferenceHandlerGroup;
         private LazyReferenceHandlerGroup<IUtilityReferenceHandler> UtilityLazyReferenceHandlerGroup;
+        private LazyConponentHandlerGroup<IUtilityReferenceHandler> UtilityLazyConponentHandlerGroup;
 
         /// <summary>
         /// 외부 생성 차단용 기본 생성자.
@@ -18,6 +19,7 @@ namespace Foundations.ReferencesHandler
             this.StaticLazyReferenceHandlerGroup = new();
             this.DynamicLazyReferenceHandlerGroup = new();
             this.UtilityLazyReferenceHandlerGroup = new();
+            this.UtilityLazyConponentHandlerGroup = new();
         }
 
         public T GetStaticHandler<T>() where T : IStaticReferenceHandler, new()
@@ -37,11 +39,7 @@ namespace Foundations.ReferencesHandler
 
         public T GetUtilityComponentHandler<T>() where T : MonoBehaviour, IUtilityReferenceHandler
         {
-            return UtilityLazyReferenceHandlerGroup.GetOrAddMonoBehaviour<T>();
+            return UtilityLazyConponentHandlerGroup.GetOrCreateComponent<T>();
         }
     }
-
-    public interface IStaticReferenceHandler { }
-    public interface IDynamicReferenceHandler { }
-    public interface IUtilityReferenceHandler { }
 }
