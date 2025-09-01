@@ -11,16 +11,18 @@ namespace Foundations.ReferencesHandler
         private LazyReferenceHandlerGroup<IUtilityReferenceHandler> UtilityLazyReferenceHandlerGroup;
         private LazyConponentHandlerGroup<IUtilityReferenceHandler> UtilityLazyConponentHandlerGroup;
 
-        /// <summary>
-        /// 외부 생성 차단용 기본 생성자.
-        /// </summary>
-        protected LazyReferenceHandlerManager_Global()
+        protected override void Awake()
         {
+            // GlobalSingleton 먼저 Awake
+            base.Awake();
+
+            // LazyReferenceHandlerManager_Global 초기화
             this.StaticLazyReferenceHandlerGroup = new();
             this.DynamicLazyReferenceHandlerGroup = new();
             this.UtilityLazyReferenceHandlerGroup = new();
             this.UtilityLazyConponentHandlerGroup = new(true);
         }
+
 
         public T GetStaticHandler<T>() where T : IStaticReferenceHandler, new()
         {
