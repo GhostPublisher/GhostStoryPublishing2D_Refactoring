@@ -1,27 +1,28 @@
 using UnityEngine.SceneManagement;
 
-using Foundations.ReferencesHandler;
+using Foundations.LazyReferenceRegistry;
 
-namespace GameSystems.Infrastructures.SceneConverterModule
+namespace GameSystems.Modules.SceneConverterModule
 {
-    public class SceneConverter : ISceneConverter
+    public interface ISceneConverter
+    {
+        public void OperateSceneConversion(string nextSceneName);
+    }
+
+    public class SceneConverter : ISceneConverter, IReferenceLink
     {
         private string EmptySceneName = "EmptyScene";
         private string NextSceneName;
 
         private bool isConverting = false;
 
-        public SceneConverter()
-        {
-            var GlobalHandlerManager = LazyReferenceHandlerManager_Global.Instance;
-            GlobalHandlerManager.GetDynamicHandler<SceneConverterHandler>().ISceneConverter = this;
-        }
-
         // Scene 변경 요청시, EmptyScene을 한번 거쳐서 진행.
         public void OperateSceneConversion(string nextSceneName)
         {
             // 작업중일 경우 무시.
             if (this.isConverting) return;
+
+//            UnityEngine.Debug.Log($"current Scene Name : {SceneManager.GetActiveScene().name}");
 
             this.isConverting = true;
             this.NextSceneName = nextSceneName;
@@ -30,8 +31,10 @@ namespace GameSystems.Infrastructures.SceneConverterModule
             SceneManager.LoadScene(this.EmptySceneName, LoadSceneMode.Single);
         }
 
-        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)  
+        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+//            UnityEngine.Debug.Log($"current Scene Name : {SceneManager.GetActiveScene().name}");
+
             // Empty Scene에 도착 후, 바로 NextScene 로드.
             if (scene.name.Equals(this.EmptySceneName))
             {

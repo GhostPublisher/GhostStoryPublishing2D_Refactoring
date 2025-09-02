@@ -6,7 +6,7 @@ using GameSystems.Orchestrations.SceneConversionFlow;
 
 namespace GameSystems.Presentations.UI
 {
-    public class StartBattleButton : MonoBehaviour
+    public class StartBattleSceneButton : MonoBehaviour
     {
         [SerializeField] private TMP_InputField stageInputField;
 

@@ -1,17 +1,16 @@
 using System.Text;
 
-using Foundations.ReferencesHandler;
+using Foundations.LazyReferenceRegistry;
 
 namespace GameSystems.Modules.Utilitys
 {
-    public class StringParser : IStringParser
+    public interface IStringParser
     {
-        public StringParser()
-        {
-            var HandlerManager = LazyReferenceHandlerManagera_Local.Instance;
-            HandlerManager.GetUtilityHandler<StringParserHandler>().IStringParser = this;
-        }
+        public bool TryExtractInt(string rawData, out int parsedValue);
+    }
 
+    public class StringParser : IStringParser, IReferenceLink
+    {
         public bool TryExtractInt(string rawData, out int parsedValue)
         {
             parsedValue = -1;
@@ -30,6 +29,7 @@ namespace GameSystems.Modules.Utilitys
             if (int.TryParse(filteredString.ToString(), out var parsed))
             {
                 parsedValue = parsed;
+//                UnityEngine.Debug.Log($"Á¤¼ö·Î ¹Ù²Û Value : {parsedValue}");
                 return true;
             }
 

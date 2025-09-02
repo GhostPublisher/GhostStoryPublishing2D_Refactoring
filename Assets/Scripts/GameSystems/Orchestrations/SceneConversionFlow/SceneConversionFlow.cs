@@ -1,7 +1,7 @@
-using Foundations.ReferencesHandler;
+using Foundations.LazyReferenceRegistry;
 
 using GameSystems.Shared.DataObject;
-using GameSystems.Infrastructures.SceneConverterModule;
+using GameSystems.Modules.SceneConverterModule;
 using GameSystems.Modules.Utilitys;
 
 namespace GameSystems.Orchestrations.SceneConversionFlow
@@ -10,16 +10,14 @@ namespace GameSystems.Orchestrations.SceneConversionFlow
     {
         private ISceneConverter ISceneConverter;
         private IStringParser IStringParser;
-
-        private StageRuntimeData StageRuntimeData;
+        private IStageRuntimeValueObject IStageRuntimeValueObject;
 
         public SceneConversionFlow()
         {
-            var GlobalHandlerManager = LazyReferenceHandlerManager_Global.Instance;
-            this.ISceneConverter = GlobalHandlerManager.GetDynamicHandler<SceneConverterHandler>().ISceneConverter;
-            this.IStringParser = GlobalHandlerManager.GetUtilityHandler<StringParserHandler>().IStringParser;
-
-            this.StageRuntimeData = GlobalHandlerManager.GetDynamicHandler<StageRuntimeDataHandler>().StageRuntimeData;
+            var referenceRegistry = GlobalReferenceRegistry.Instance;
+            this.ISceneConverter = referenceRegistry.GetPlainModule<SceneConverter>();
+            this.IStringParser = referenceRegistry.GetPlainModule<StringParser>();
+            this.IStageRuntimeValueObject = referenceRegistry.GetPlainModule<StageRuntimeValueObject>();
         }
 
         // Scene 변경 Flow
@@ -37,7 +35,7 @@ namespace GameSystems.Orchestrations.SceneConversionFlow
         public void ConvertBattleScene(int nextStageID, string nextSceneName)
         {
             // 추출된 StageID를 저장.
-            this.StageRuntimeData.StageID = nextStageID;
+            this.IStageRuntimeValueObject.StageID = nextStageID;
             // 다음 Scene으로 전환.
             this.ISceneConverter.OperateSceneConversion(nextSceneName);
         }

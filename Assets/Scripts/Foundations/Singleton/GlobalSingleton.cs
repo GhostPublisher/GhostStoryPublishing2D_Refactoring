@@ -29,6 +29,9 @@ namespace Foundations.Patterns.Singleton
                     {
                         Debug.Log($"[씬 전용 싱글톤<{typeof(T).Name}>] 씬에서 찾지 못해 자동 생성했습니다.");
                         var GO = new GameObject(typeof(T).Name);
+
+                        // AddComponent<T>()를 수행하는 동시에, Awake()가 호출되고 이때 instance 멤버 정의와 DontDestroyOnLoad가 중복 호출이 되지만, 문제는 안됨.
+                        // 더 정확하게 코드를 만드릭 위해서는 코드가 복잡해짐. 따라서 단순하고 명확한 이 형식을 유지.
                         instance = GO.AddComponent<T>();
                         DontDestroyOnLoad(GO);
                     }
