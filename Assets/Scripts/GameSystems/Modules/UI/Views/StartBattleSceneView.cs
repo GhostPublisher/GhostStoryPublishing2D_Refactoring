@@ -2,11 +2,11 @@ using UnityEngine;
 
 using TMPro;
 
-using GameSystems.Orchestrations.SceneConversionFlow;
+using GameSystems.Modules.Scene;
 
-namespace GameSystems.Presentations.UI
+namespace GameSystems.Modules.UI
 {
-    public class StartBattleSceneButton : MonoBehaviour
+    public class StartBattleSceneView : MonoBehaviour
     {
         [SerializeField] private TMP_InputField stageInputField;
 

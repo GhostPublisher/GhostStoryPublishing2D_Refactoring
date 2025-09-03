@@ -1,6 +1,6 @@
 using Foundations.LazyReferenceRegistry;
 
-namespace GameSystems.Shared.DataObject
+namespace GameSystems.Modules.Scene
 {
     public interface IStageRuntimeValueObject
     {

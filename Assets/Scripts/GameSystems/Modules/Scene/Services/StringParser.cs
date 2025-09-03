@@ -2,7 +2,7 @@ using System.Text;
 
 using Foundations.LazyReferenceRegistry;
 
-namespace GameSystems.Modules.Utilitys
+namespace GameSystems.Modules.Scene
 {
     public interface IStringParser
     {

@@ -2,7 +2,7 @@ using UnityEngine.SceneManagement;
 
 using Foundations.LazyReferenceRegistry;
 
-namespace GameSystems.Modules.SceneConverterModule
+namespace GameSystems.Modules.Scene
 {
     public interface ISceneConverter
     {
@@ -31,7 +31,7 @@ namespace GameSystems.Modules.SceneConverterModule
             SceneManager.LoadScene(this.EmptySceneName, LoadSceneMode.Single);
         }
 
-        public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        public void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
         {
 //            UnityEngine.Debug.Log($"current Scene Name : {SceneManager.GetActiveScene().name}");
 

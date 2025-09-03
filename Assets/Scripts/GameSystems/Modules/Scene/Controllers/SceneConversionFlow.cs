@@ -1,10 +1,6 @@
 using Foundations.LazyReferenceRegistry;
 
-using GameSystems.Shared.DataObject;
-using GameSystems.Modules.SceneConverterModule;
-using GameSystems.Modules.Utilitys;
-
-namespace GameSystems.Orchestrations.SceneConversionFlow
+namespace GameSystems.Modules.Scene
 {
     public class SceneConversionFlow
     {
