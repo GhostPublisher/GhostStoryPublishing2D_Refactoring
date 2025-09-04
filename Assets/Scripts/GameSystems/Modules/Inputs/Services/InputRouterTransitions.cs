@@ -1,4 +1,4 @@
-﻿namespace GameSystems.Modules.Input
+﻿namespace GameSystems.Modules.Inputs
 {
     public interface IInputRouterTransitions
     {
@@ -18,10 +18,10 @@
             switch (inputRouterType)
             {
                 case InputRouterType.LobbyScene:
-                    inputRouter = new Lobby_InputRouterController();
+                    inputRouter = new Lobby_InputRouter();
                     break;
                 case InputRouterType.BattleScene:
-                    inputRouter = new Battle_InputRouterController();
+                    inputRouter = new Battle_InputRouter();
                     break;
                 default:
                     break;

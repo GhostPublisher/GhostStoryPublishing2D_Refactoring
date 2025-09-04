@@ -2,7 +2,7 @@
 
 using Foundations.LazyReferenceRegistry;
 
-using GameSystems.Modules.Input;
+using GameSystems.Modules.Inputs;
 
 namespace GameSystems.Modules.Boot
 {

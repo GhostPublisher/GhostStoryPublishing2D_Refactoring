@@ -2,7 +2,7 @@ using UnityEngine;
 
 using Foundations.LazyReferenceRegistry;
 
-namespace GameSystems.Modules.Input
+namespace GameSystems.Modules.Inputs
 {
     public class InputRouterController : MonoBehaviour, IReferenceLink
     {
@@ -27,7 +27,7 @@ namespace GameSystems.Modules.Input
 
         public void Update()
         {
-            this.currentIInputRouter.Update();
+            this.currentIInputRouter.UpdateInputController();
         }
     }
 }
