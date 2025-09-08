@@ -1,67 +1,47 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 using GameSystems.BootStrap;
 using GameSystems.Repository;
-
-namespace GameSystems.Inputs
-{
-
-}
-
-namespace GameSystems.DomainModel.Input
-{
-    public class InputDomainModel : IDomainModel
-    {
-        private InputState currentInputState;
-
-        public InputState CurrentInputState { get => currentInputState; set => currentInputState = value; }
-    }
-
-    public enum InputState
-    {
-        GamePlay, Dialog
-    }
-}
 
 namespace GameSystems.Boot
 {
     // MainBoot는 모든 Scene에 존재합니다.
     //  : 이는 부분 Scene 테스트 수행성을 높이기 위함입니다.
     //  : 모든 Scene에서 Awake()를 수행하여도, '초기화여부' boolean 값을 통하여 중복 수행 및 정의는 방지합니다.
+    [DefaultExecutionOrder(-100)]  // 숫자가 낮을수록 먼저 실행됨
     public class MainBoot : MonoBehaviour
     {
         private void Awake()
         {
-            // Unity Engine 에 의존하여 작동하는 Service 기능들을 로드합니다.
-            // 해당 기능들은 전역으로 사용된다는 특지이 있습니다.
-            IUnityServiceLoadManager UnityServiceRepository = new UnityServiceLoadManager();
-            UnityServiceRepository.TryLoadUnityServices();
-        }
-    }
+            IPlainServiceRepository plainServiceRepository = Repository.PlainServiceRepository.Instance;
+            if (!plainServiceRepository.IsInitialed)
+            {
+                // Unity Engine 에 의존하지 않는 Service 기능들을 로드합니다.
 
-    public class LobbySceneBoot : MonoBehaviour
-    {
-        private void Awake()
-        {
-            IGameFlowLoadManager GameFlowLoadManager = new LobbyScene_GameFlowLoadManager();
-            IHandlerRepository HandlerRepository = new HandlerRepository();
-            IUnityServiceRepository UnityServiceRepository = Repository.UnityServiceRepository.Instance;
+                IPlainServiceLoader plainServiceLoadManager = new PlainServiceLoader();
+                plainServiceLoadManager.LoadPlainServices(plainServiceRepository);
 
-            GameFlowLoadManager.LoadGameFlows(HandlerRepository, UnityServiceRepository);
-        }
-    }
+                // 초기 설정 완료 명시.
+                plainServiceRepository.IsInitialed = true;
+            }
 
-    public class BattleSceneBoot : MonoBehaviour
-    {
-        private void Awake()
-        {
-            IGameFlowLoadManager GameFlowLoadManager = new BattleScene_GameFlowLoadManager();
-            IHandlerRepository HandlerRepository = new HandlerRepository();
-            IUnityServiceRepository UnityServiceRepository = Repository.UnityServiceRepository.Instance;
+            // Singleton UnityService 저장소 참조
+            IUnityServiceRepository unityServiceRepository = Repository.UnityServiceRepository.Instance;
+            // 초기 설정이 되어 있지 않으면, 초기 설정 수행.
+            if (!unityServiceRepository.IsInitialed)
+            {
+                // 런타임 내 유일한 GameObject 명시.
+                UnityEngine.GameObject UnityServiceGameObjectParent = new("UnityServices");
+                UnityEngine.Object.DontDestroyOnLoad(UnityServiceGameObjectParent);
 
-            GameFlowLoadManager.LoadGameFlows(HandlerRepository, UnityServiceRepository);
+                // Unity Engine 에 의존하여 작동하는 Service 기능들 로드.
+                IUnityServiceLoader unityServiceLoader = new UnityServiceLoader();
+                unityServiceLoader.LoadUnityServices(unityServiceRepository, UnityServiceGameObjectParent);
+
+                // 초기 설정 완료 명시.
+                unityServiceRepository.IsInitialed = true;
+            }
+
         }
     }
 }

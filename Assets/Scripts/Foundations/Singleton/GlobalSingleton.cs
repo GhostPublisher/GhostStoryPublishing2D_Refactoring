@@ -56,20 +56,5 @@ namespace Foundations.Patterns.Singleton
                 Destroy(gameObject);
             }
         }
-
-
-        // Scene 종료 시, 해당 instance 초기화.
-        private void OnDestroy()
-        {
-            if (instance == this)
-            {
-                Debug.Log($"[씬 전용 싱글톤<{typeof(T).Name}>] 씬 언로드로 인해 인스턴스가 해제되었습니다.");
-                instance = null;
-            }
-        }
-
-        // 유니티 Editor에서 static으로 사용한 값을 남기는 기능을 비활성화 시키기.
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void SubsystemInit() => instance = null;
     }
 }

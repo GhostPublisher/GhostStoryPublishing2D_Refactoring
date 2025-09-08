@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using GameSystems.Views;
 
 namespace GameSystems.Repository
 {
@@ -11,7 +12,6 @@ namespace GameSystems.Repository
         public void RemoveView(Type key);
         public void RemoveAllView();
     }
-    public interface IView { }
 
     public class ViewRepository : IViewRepository
     {

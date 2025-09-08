@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using GameSystems.Domain.Models;
 
 namespace GameSystems.Repository
 {
     public interface IDomainModelRepository
     {
-        public bool TryGetDomainModel(Type key, out IDomainModel domainModel);
-        public void RegisterDomainModel(Type key, IDomainModel domainModel);
-        public void RemoveDomainModel(Type key);
+        public bool TryGetDomainModel<T>(out T domainModel) where T : IDomainModel;
+        public void RegisterDomainModel<T>(IDomainModel domainModel) where T : IDomainModel;
+        public void RemoveDomainModel<T>() where T : IDomainModel;
         public void RemoveAllDomainModel();
     }
-
-    public interface IDomainModel { }
 
     public class DomainModelRepository : IDomainModelRepository
     {
@@ -23,24 +22,32 @@ namespace GameSystems.Repository
             this.DomainModels = new();
         }
 
-        public bool TryGetDomainModel(Type key, out IDomainModel domainModel)
+        public bool TryGetDomainModel<T>(out T domainModel) where T : IDomainModel
         {
-            domainModel = null;
+            domainModel = default;
             if (this.DomainModels == null) return false;
 
-            return this.DomainModels.TryGetValue(key, out domainModel);
+            Type key = typeof(T);
+            if (!this.DomainModels.TryGetValue(key, out var model)) return false;
+
+            domainModel = (T)model;
+            return true;
         }
 
-        public void RegisterDomainModel(Type key, IDomainModel domainModel)
+        public void RegisterDomainModel<T>(IDomainModel domainModel) where T : IDomainModel
         {
+            Type key = typeof(T);
+
             if (this.DomainModels.ContainsKey(key))
                 UnityEngine.Debug.Log($"이미 포함하고 있는 DomainModel 입니다. ( 등록 무시 )");
 
             this.DomainModels.Add(key, domainModel);
         }
 
-        public void RemoveDomainModel(Type key)
+        public void RemoveDomainModel<T>() where T : IDomainModel
         {
+            Type key = typeof(T);
+
             if (!this.DomainModels.ContainsKey(key))
                 UnityEngine.Debug.Log($"포함되지 않은 DomainModel 입니다. ( 제거 무시 )");
 
