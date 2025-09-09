@@ -10,10 +10,7 @@ namespace GameSystems.Boot
     {
         private void Awake()
         {
-            IGameFlowLoader GameFlowLoadManager = new BattleScene_GameFlowLoader();
-            IHandlerRepository HandlerRepository = new HandlerRepository();
-            IUnityServiceRepository UnityServiceRepository = Repository.UnityServiceRepository.Instance;
-            IPlainServiceRepository PlainServiceRepository = Repository.PlainServiceRepository.Instance;
+
         }
     }
 }

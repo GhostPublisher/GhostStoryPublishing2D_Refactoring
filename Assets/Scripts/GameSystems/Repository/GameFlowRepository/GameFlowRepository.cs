@@ -7,8 +7,8 @@ namespace GameSystems.Repository
 {
     public interface IGameFlowRepository
     {
-        public bool TryGetGameFlow<T>(out IGameFlow gameFlow) where T : IGameFlow;
-        public void RegisterGameFlow<T>(IGameFlow gameFlow) where T : IGameFlow;
+        public bool TryGetGameFlow<T>(out T gameFlow) where T : IGameFlow;
+        public void RegisterGameFlow<T>(T gameFlow) where T : IGameFlow;
         public void RemoveGameFlow<T>() where T : IGameFlow;
         public void RemoveAllGameFlow();
     }
@@ -23,7 +23,7 @@ namespace GameSystems.Repository
             this.GameFlows = new();
         }
 
-        public bool TryGetGameFlow<T>(out IGameFlow gameFlow) where T : IGameFlow
+        public bool TryGetGameFlow<T>(out T gameFlow) where T : IGameFlow
         {
             gameFlow = default;
 
@@ -35,11 +35,11 @@ namespace GameSystems.Repository
                 return false;
             }
 
-            gameFlow = flow;
+            gameFlow = (T)flow;
             return true;
         }
 
-        public void RegisterGameFlow<T>(IGameFlow gameFlow) where T : IGameFlow
+        public void RegisterGameFlow<T>(T gameFlow) where T : IGameFlow
         {
             Type key = typeof(T);
 

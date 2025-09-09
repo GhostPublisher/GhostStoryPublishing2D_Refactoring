@@ -2,11 +2,13 @@
 using GameSystems.UnityServices;
 
 using GameSystems.DTO;
+using GameSystems.Repository;
 
 namespace GameSystems.GameFlows
 {
     public interface ISceneConverter : IGameFlow
     {
+        public void InitialBinds(IPlainServiceRepository PlainServiceRepository, IUnityServiceRepository UnityServiceRepository);
         public void ConvertToBattleScene(string stageID);
         public void ConvertToBattleScene(int stageID);
     }
@@ -20,7 +22,9 @@ namespace GameSystems.GameFlows
         // UnityService
         private ISceneService SceneService;
 
-        public SceneConvertGameFlow(Repository.IPlainServiceRepository PlainServiceRepository, Repository.IUnityServiceRepository UnityServiceRepository)
+        public SceneConvertGameFlow() { }
+
+        public void InitialBinds(IPlainServiceRepository PlainServiceRepository, IUnityServiceRepository UnityServiceRepository)
         {
             if (PlainServiceRepository.TryGetPlainService<ScenePayloadService>(out var service01))
                 this.ScenePayloadService = service01;
@@ -30,15 +34,6 @@ namespace GameSystems.GameFlows
 
             if (UnityServiceRepository.TryGetUnityService<SceneService>(out var service03))
                 this.SceneService = service03;
-        }
-
-        // 이게 맞는거 같은데, 좀 더 해보다가 repository를 제거할 방법 생각해 볼듯.
-        public SceneConvertGameFlow(ISceneService sceneService, IScenePayloadService scenePayloadService,
-            IStringParser stringParser)
-        {
-            this.SceneService = sceneService;
-            this.ScenePayloadService = scenePayloadService;
-            this.StringParser = stringParser;
         }
 
         public void ConvertToBattleScene(string stageID)

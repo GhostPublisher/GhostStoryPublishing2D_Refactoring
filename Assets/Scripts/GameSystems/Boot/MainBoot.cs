@@ -13,35 +13,31 @@ namespace GameSystems.Boot
     {
         private void Awake()
         {
+            // Singleton PlainService & UnityService 저장소 생성 및 참조
             IPlainServiceRepository plainServiceRepository = Repository.PlainServiceRepository.Instance;
+            IUnityServiceRepository unityServiceRepository = Repository.UnityServiceRepository.Instance;
+
+            // 초기 Load가 되어 있지 않으면, PlainService & UnityService 기능 로드.
+
             if (!plainServiceRepository.IsInitialed)
             {
                 // Unity Engine 에 의존하지 않는 Service 기능들을 로드합니다.
-
-                IPlainServiceLoader plainServiceLoadManager = new PlainServiceLoader();
-                plainServiceLoadManager.LoadPlainServices(plainServiceRepository);
+                IPlainServiceManager plainServiceLoadManager = new PlainServiceManager(plainServiceRepository);
+                plainServiceLoadManager.LoadPlainServices();
 
                 // 초기 설정 완료 명시.
                 plainServiceRepository.IsInitialed = true;
             }
 
-            // Singleton UnityService 저장소 참조
-            IUnityServiceRepository unityServiceRepository = Repository.UnityServiceRepository.Instance;
-            // 초기 설정이 되어 있지 않으면, 초기 설정 수행.
             if (!unityServiceRepository.IsInitialed)
             {
-                // 런타임 내 유일한 GameObject 명시.
-                UnityEngine.GameObject UnityServiceGameObjectParent = new("UnityServices");
-                UnityEngine.Object.DontDestroyOnLoad(UnityServiceGameObjectParent);
-
                 // Unity Engine 에 의존하여 작동하는 Service 기능들 로드.
-                IUnityServiceLoader unityServiceLoader = new UnityServiceLoader();
-                unityServiceLoader.LoadUnityServices(unityServiceRepository, UnityServiceGameObjectParent);
+                IUnityServiceLoader unityServiceLoader = new UnityServiceLoader(unityServiceRepository);
+                unityServiceLoader.LoadUnityServices();
 
                 // 초기 설정 완료 명시.
                 unityServiceRepository.IsInitialed = true;
             }
-
         }
     }
 }

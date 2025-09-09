@@ -19,7 +19,7 @@ namespace GameSystems.PlainServices
 
         public bool TryGetPayload<T>(out T resultPayload) where T : class, DTO.IPayload
         {
-            resultPayload = default;
+            resultPayload = null;
             if (this.SceneConvertPayload == null) return false;
 
             resultPayload = (T)this.SceneConvertPayload;
@@ -29,6 +29,11 @@ namespace GameSystems.PlainServices
         public void SetPayload<T>(T data) where T : class, DTO.IPayload
         {
             this.SceneConvertPayload = data;
+        }
+
+        public void ClearPayload()
+        {
+            this.SceneConvertPayload = null;
         }
     }
 }

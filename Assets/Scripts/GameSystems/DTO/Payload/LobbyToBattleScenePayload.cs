@@ -6,4 +6,9 @@
     {
         public int CurrentStageID;
     }
+
+    public class BattleToLobbyScenePayload : IPayload
+    {
+
+    }
 }
