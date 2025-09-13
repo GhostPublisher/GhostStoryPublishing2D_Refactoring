@@ -35,6 +35,10 @@ namespace GameSystems.BootStrap
 
             // Scene 전환 유니티 서비스 등록.
             this.unityServiceRepository.RegisterUnityService<SceneService>(new SceneService());
+            this.unityServiceRepository.RegisterUnityService<CoroutineRunner>(this.UnityServiceGameObjectParent.AddComponent<CoroutineRunner>());
+
+            this.unityServiceRepository.RegisterUnityService<TransformMovementService>(new TransformMovementService());
+            this.unityServiceRepository.RegisterUnityService<RectTransformMovementService>(new RectTransformMovementService());
         }
     }
 }

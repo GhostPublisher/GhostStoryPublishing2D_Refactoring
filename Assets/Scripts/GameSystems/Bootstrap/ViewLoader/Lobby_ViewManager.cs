@@ -8,11 +8,11 @@ namespace GameSystems.BootStrap
 
         public override void LoadView()
         {
-            throw new System.NotImplementedException();
+
         }
         public override void InitialBinds(IGameFlowRepository GameFlowRepository)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

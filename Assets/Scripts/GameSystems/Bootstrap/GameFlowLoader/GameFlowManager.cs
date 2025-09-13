@@ -10,7 +10,7 @@ namespace GameSystems.BootStrap
             IUnityServiceRepository UnityServiceRepository,
             IDomainModelRepository DomainModelRepository,
             IViewRepository ViewRepository,
-            IHandlerRepository HandlerRepository);
+            IEntityRepository HandlerRepository);
     }
 
     public abstract class GameFlowManager : IGameFlowManager
@@ -30,7 +30,7 @@ namespace GameSystems.BootStrap
             IUnityServiceRepository UnityServiceRepository,
             IDomainModelRepository DomainModelRepository,
             IViewRepository ViewRepository,
-            IHandlerRepository HandlerRepository);
+            IEntityRepository HandlerRepository);
     }
 }
 

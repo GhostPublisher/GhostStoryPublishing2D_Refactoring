@@ -1,4 +1,7 @@
-﻿using GameSystems.Repository;
+﻿using GameSystems.PlainServices;
+using GameSystems.UnityServices;
+
+using GameSystems.Repository;
 
 using GameSystems.GameFlows;
 
@@ -10,16 +13,12 @@ namespace GameSystems.BootStrap
 
         public override void LoadGameFlows()
         {
-            this.GameFlowRepository.RegisterGameFlow<SceneConvertGameFlow>(new SceneConvertGameFlow());
+            this.GameFlowRepository.RegisterGameFlow<LobbyToBattle_SceneConvertGameFlow>(new LobbyToBattle_SceneConvertGameFlow());
         }
 
         public override void InitialBinds(IPlainServiceRepository PlainServiceRepository, IUnityServiceRepository UnityServiceRepository,
-            IDomainModelRepository DomainModelRepository, IViewRepository ViewRepository, IHandlerRepository HandlerRepository)
+            IDomainModelRepository DomainModelRepository, IViewRepository ViewRepository, IEntityRepository HandlerRepository)
         {
-            // SceneConvert GameFlow 등록.
-            if (this.GameFlowRepository.TryGetGameFlow<SceneConvertGameFlow>(out var flow))
-                flow.InitialBinds(PlainServiceRepository, UnityServiceRepository);
-
 
         }
     }

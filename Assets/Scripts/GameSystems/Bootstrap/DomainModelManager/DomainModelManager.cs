@@ -4,8 +4,8 @@ namespace GameSystems.BootStrap
 {
     public interface IDomainModelManager
     {
-        public abstract void LoadDomainModelsWithPayload(IPlainServiceRepository plainServiceRepository);
-        public abstract void LoadDomainModels();
+        public void LoadDomainModelsWithPayload(IPlainServiceRepository plainServiceRepository);
+        public void LoadDomainModels();
     }
 
     public abstract class DomainModelManager : IDomainModelManager

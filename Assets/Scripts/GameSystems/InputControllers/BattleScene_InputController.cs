@@ -1,7 +1,7 @@
 ﻿using GameSystems.Domain.Models;
 namespace GameSystems.InputController
 {
-    public class LobbyScene_InputController : InputController
+    public class BattleScene_InputController : InputController
     {
         private void Update()
         {
